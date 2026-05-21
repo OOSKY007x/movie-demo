@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <title>🎬 MOVIE TIX | จองตั๋วหนังออนไลน์</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #ff4757;
+            --secondary: #2ed573;
+            --bg-dark: #0f172a;
+            --card-bg: rgba(30, 41, 59, 0.7);
+            --text-main: #f8fafc;
+        }
+
+        * { box-sizing: border-box; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-dark);
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(255, 71, 87, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(46, 213, 115, 0.1) 0px, transparent 50%);
+            color: var(--text-main);
+            margin: 0;
+            min-height: 100vh;
+        }
+
+        /* Animation Keyframes */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        header {
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            letter-spacing: 4px;
+            color: var(--primary);
+            text-shadow: 0 0 15px rgba(255, 71, 87, 0.5);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .btn-add {
+            background: var(--primary);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 20px rgba(255, 71, 87, 0.3);
+        }
+
+        .btn-add:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 25px rgba(255, 71, 87, 0.5);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            backdrop-filter: blur(5px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        .card:hover {
+            border-color: var(--primary);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            transform: translateY(-10px);
+        }
+
+        .poster-container {
+            position: relative;
+            height: 400px;
+            overflow: hidden;
+        }
+
+        .card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .card:hover img { transform: scale(1.1); }
+
+        .price-tag {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: var(--primary);
+            padding: 5px 15px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .card-content { padding: 25px; }
+
+        .genre {
+            color: var(--secondary);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .card-content h3 {
+            margin: 10px 0;
+            font-size: 1.4rem;
+        }
+
+        .info {
+            font-size: 0.9rem;
+            color: #94a3b8;
+            margin-bottom: 20px;
+        }
+
+        .booking-form input {
+            width: 100%;
+            background: rgba(0,0,0,0.3);
+            border: 1px solid #334155;
+            padding: 10px;
+            border-radius: 10px;
+            color: white;
+            margin-bottom: 10px;
+        }
+
+        .btn-book {
+            width: 100%;
+            padding: 12px;
+            background: var(--secondary);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+
+        .btn-book:hover { filter: brightness(1.2); }
+
+        .actions {
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-around;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 15px;
+        }
+
+        .actions a {
+            color: #64748b;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .actions a:hover { color: var(--primary); }
+
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>🎬 MOVIE BU</h1>
+</header>
+
+<div class="container">
+    <a href="/append" class="btn-add"><i class="fas fa-plus"></i> เพิ่มหนังใหม่</a>
+
+    <div class="grid">
+        {% for movie in movies %}
+        <div class="card">
+            <div class="poster-container">
+                <img src="{{ movie.image }}" alt="{{ movie.title }}">
+                <div class="price-tag">{{ movie.price }} THB</div>
+            </div>
+            <div class="card-content">
+                <div class="genre">{{ movie.genre }}</div>
+                <h3>{{ movie.title }}</h3>
+                <div class="info">
+                    <p><i class="fas fa-video"></i> {{ movie.theater }}</p>
+                    <p><i class="fas fa-clock"></i> {{ movie.show_time }}</p>
+                </div>
+
+                <form class="booking-form" action="/book/{{ movie.id }}" method="POST">
+                    <input type="text" name="customer_name" placeholder="ชื่อผู้จอง..." required>
+                    <input type="number" name="seats_count" min="1" max="10" value="1">
+                    <button type="submit" class="btn-book">จองตั๋วเลย 🎟️</button>
+                </form>
+
+                <div class="actions">
+                    <a href="/edit/{{ movie.id }}"><i class="fas fa-edit"></i> แก้ไข</a>
+                    <a href="/delete/{{ movie.id }}" onclick="return confirm('ยืนยันการลบ?')"><i class="fas fa-trash"></i> ลบ</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+</body>
+</html>
